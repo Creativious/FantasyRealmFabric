@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "fantasyRealm",
+  "version": "${version}",
+  "name": "FantasyRealm",
+  "description": "",
+  "authors": [
+    "Creativious"
+  ],
+  "contact": {
+    "website": "https://www.creativious.net"
+  },
+  "license": "MIT",
+  "icon": "assets/fantasyRealm/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.creativious.creativious.client.CreativiousClient"
+    ],
+    "main": [
+      "net.creativious.creativious.Creativious"
+    ]
+  },
+  "mixins": [
+    "fantasyRealm.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": "1.19"
+  }
+}
