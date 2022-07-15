@@ -1,5 +1,6 @@
 package net.creativious.fantasyrealm;
 
+import net.creativious.fantasyrealm.network.PlayerStatsServerPacket;
 import net.fabricmc.api.ModInitializer;
 
 import java.util.logging.LogManager;
@@ -10,6 +11,6 @@ public class FantasyRealm implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogManager().getLogger(MOD_ID);
     @Override
     public void onInitialize() {
-        // Test
+        PlayerStatsServerPacket.init();
     }
 }
