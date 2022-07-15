@@ -1,0 +1,4 @@
+{
+  "commands.level.changed": "Changed %d's level to %d.",
+  "commands.level.progress.changed": "Changed %d's level progress to %d percent"
+}

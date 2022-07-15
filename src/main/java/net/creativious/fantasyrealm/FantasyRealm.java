@@ -1,5 +1,6 @@
 package net.creativious.fantasyrealm;
 
+import net.creativious.fantasyrealm.commands.CommandController;
 import net.creativious.fantasyrealm.network.PlayerStatsServerPacket;
 import net.fabricmc.api.ModInitializer;
 
@@ -12,5 +13,6 @@ public class FantasyRealm implements ModInitializer {
     @Override
     public void onInitialize() {
         PlayerStatsServerPacket.init();
+        CommandController.init();
     }
 }
