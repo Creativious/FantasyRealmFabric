@@ -4,6 +4,7 @@
   "package": "net.creativious.fantasyrealm.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "player.PlayerEntityMixin"
   ],
   "client": [
   ],

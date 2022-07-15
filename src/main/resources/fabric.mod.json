@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "fantasyRealm",
+  "id": "fantasyrealm",
   "version": "${version}",
   "name": "FantasyRealm",
   "description": "",
@@ -15,10 +15,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.creativious.creativious.client.CreativiousClient"
+      "net.creativious.fantasyrealm.client.FantasyRealmClient"
     ],
     "main": [
-      "net.creativious.creativious.Creativious"
+      "net.creativious.fantasyrealm.FantasyRealm"
     ]
   },
   "mixins": [
