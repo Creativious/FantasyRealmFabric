@@ -19,6 +19,8 @@ public class PlayerStatsServerPacket {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(playerStatsManager.getLevel()); // Level
         buf.writeInt(playerStatsManager.getTotalLevelExperience()); // Total Level Experience
+        playerStatsManager.blacksmithingStat.writeBuffer(buf);
+        playerStatsManager.cookingStat.writeBuffer(buf);
 
         CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(LEVEL_PACKET, buf);
         serverPlayerEntity.networkHandler.sendPacket(packet);

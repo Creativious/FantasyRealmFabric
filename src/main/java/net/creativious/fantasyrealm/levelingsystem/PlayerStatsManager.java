@@ -1,22 +1,34 @@
 package net.creativious.fantasyrealm.levelingsystem;
 
 
+import net.creativious.fantasyrealm.levelingsystem.stats.BlacksmithingStat;
+import net.creativious.fantasyrealm.levelingsystem.stats.CookingStat;
+import net.creativious.fantasyrealm.levelingsystem.stats.Stat;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 
 public class PlayerStatsManager {
     public int level;
     public int skillPoints;
     public int totalLevelExperience;
 
+    public Stat blacksmithingStat = new BlacksmithingStat();
+    public Stat cookingStat = new CookingStat();
+
 
     public void readNbt(NbtCompound tag) {
         this.level = tag.getInt("Level");
         this.totalLevelExperience = tag.getInt("TotalLevelExperience");
+        blacksmithingStat.readNBT(tag);
+        cookingStat.readNBT(tag);
     }
 
     public void writeNbt(NbtCompound tag) {
         tag.putInt("Level", this.level);
         tag.putInt("TotalLevelExperience", this.totalLevelExperience);
+        blacksmithingStat.writeNBT(tag);
+        cookingStat.writeNBT(tag);
+
     }
 
     public int getLevel() {
@@ -44,8 +56,7 @@ public class PlayerStatsManager {
     }
 
     public int calcExperienceForLevel(int level) {
-        int exp = (int) (((level) * 500)^4)/15^2;
-        return exp;
+        return (int) (((level) * 500)^4)/15^2;
     }
 
     public int calcCurrentExperienceBasedOnLevel() {

@@ -28,5 +28,7 @@ public class PlayerStatsClientPacket {
         PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) player).getPlayerStatsManager(player);
         playerStatsManager.setLevel(buf.readInt()); // Level
         playerStatsManager.setTotalLevelExperience(buf.readInt()); // Total Level Experience
+        playerStatsManager.blacksmithingStat.readBuffer(buf);
+        playerStatsManager.cookingStat.readBuffer(buf);
     }
 }

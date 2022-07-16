@@ -39,6 +39,8 @@ public class PlayerStatsGUI extends LightweightGuiDescription {
         WText experienceText = new WText(Text.literal(experienceTextString), 65280);
         root.add(experienceText, (root.getWidth() / 2) - (client.textRenderer.getWidth(experienceTextString) / 2), levelText.getY() + 13%(root.getHeight()), client.textRenderer.getWidth(experienceTextString), client.textRenderer.fontHeight);
 
+        String levelStatName = "Stats";
+
 
         root.setInsets(Insets.ROOT_PANEL);
 
