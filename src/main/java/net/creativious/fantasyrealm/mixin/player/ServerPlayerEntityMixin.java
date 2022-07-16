@@ -30,18 +30,38 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
     public float syncedPlayerStatsLevelProgress = -1;
     public float syncedPlayerStatsTotalExperience = -1;
 
+    /**
+     * The Player stats manager.
+     */
     PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) this).getPlayerStatsManager((PlayerEntity) (Object) this);
 
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey) {
         super(world, pos, yaw, gameProfile, publicKey);
     }
 
+    /**
+     * Injects to the onSpawn method within ServerPlayerEntity
+     *
+     * When the player respawns/joins the server it'll make sure the correct level is given based on the experience they have
+     * and also updates the client player with the information from the server
+     *
+     * @param ci CallbackInfo
+     */
     @Inject(method="onSpawn", at=@At(value="TAIL"))
     public void onSpawn(CallbackInfo ci) {
         this.playerStatsManager.autoFixLevel();
         PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
     }
 
+    /**
+     * Injects into the playerTick method with ServerPlayerEntity
+     *
+     * WARNING ALWAYS HAVE AN IF STATEMENT CHECK IF IT IS REALLY NEEDED TO RUN THINGS WITHIN HERE, THIS IS A COMMON CRASH IF YOU USE THIS IMPROPERLY
+     *
+     * Ensures that the server and the client are synced with playerStatsManager
+     *
+     * @param ci Callback Info
+     */
     @Inject(method="playerTick", at=@At(value="TAIL"))
     public void playerTick(CallbackInfo ci) {
         if (this.playerStatsManager.getLevel() != this.syncedPlayerStatsLevel) {
@@ -61,6 +81,16 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
         }
     }
 
+    /**
+     * Injects into the updateKilledAdvancementCriterion method with ServerPlayerEntity
+     *
+     * Used by me to know when an entity is killed by the player so I can use it to level up the player for each max hp point the killed creature had.
+     *
+     * @param entityKilled the entity killed
+     * @param score        the score
+     * @param damageSource the damage source
+     * @param ci           Callback info
+     */
     @Inject(method="updateKilledAdvancementCriterion", at=@At(value="TAIL"))
     public void mobKilled(Entity entityKilled, int score, DamageSource damageSource, CallbackInfo ci) {
         if (entityKilled != this) {

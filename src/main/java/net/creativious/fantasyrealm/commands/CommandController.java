@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.logging.Level;
 
 public class CommandController {
+    /**
+     * Init.
+     */
     public static void init() {
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated, environment) -> {
             dispatcher.register(LevelCommand.getCommand());

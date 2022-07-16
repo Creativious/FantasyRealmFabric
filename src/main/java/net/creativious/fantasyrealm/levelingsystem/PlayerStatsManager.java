@@ -16,6 +16,13 @@ public class PlayerStatsManager {
     public Stat cookingStat = new CookingStat();
 
 
+    /**
+     * Reads NBT Data for the player
+     *
+     * I suggest not touching this one, except when you add a new stat
+     *
+     * @param tag
+     */
     public void readNbt(NbtCompound tag) {
         this.level = tag.getInt("Level");
         this.totalLevelExperience = tag.getInt("TotalLevelExperience");
@@ -23,6 +30,13 @@ public class PlayerStatsManager {
         cookingStat.readNBT(tag);
     }
 
+    /**
+     * Writes NBT Data for the player
+     *
+     * I suggest not touching this one, except when you add a new stat
+     *
+     * @param tag
+     */
     public void writeNbt(NbtCompound tag) {
         tag.putInt("Level", this.level);
         tag.putInt("TotalLevelExperience", this.totalLevelExperience);
@@ -31,14 +45,28 @@ public class PlayerStatsManager {
 
     }
 
+    /**
+     *
+     * @return Level Integer
+     */
     public int getLevel() {
         return this.level;
     }
 
+    /**
+     * Returns the experience that the current player needs to level up from their current level to the next excluding already gained xp.
+     *
+     * @return
+     */
     public int neededExperienceForLevelUp() {
         return calcExperienceForLevel(this.level + 1);
     }
 
+    /**
+     * All the experience in total that the current player needs to have before they can level up
+     *
+     * @return
+     */
     public int neededTotalExperienceForLevelUp() {
         int subEXP = 0;
         for (int i = 0; i < this.level; i++) {
@@ -47,6 +75,12 @@ public class PlayerStatsManager {
         return subEXP + neededExperienceForLevelUp();
     }
 
+    /**
+     * All the experience in total that one may need for the given level to level up.
+     *
+     * @param level
+     * @return
+     */
     public int calcTotalNeedExperienceForLevel(int level) {
         int subEXP = 0;
         for (int i = 0; i < level; i++) {
@@ -55,10 +89,21 @@ public class PlayerStatsManager {
         return subEXP;
     }
 
+    /**
+     * The needed experience for the individual level to level up
+     *
+     * @param level
+     * @return
+     */
     public int calcExperienceForLevel(int level) {
         return (int) (((level) * 500)^4)/15^2;
     }
 
+    /**
+     * Is an easier format for players to read as it doesn't go into the billions, think of it of a small form of the total xp.
+     *
+     * @return
+     */
     public int calcCurrentExperienceBasedOnLevel() {
         int subEXP = 0;
         for (int i = 0; i < this.level; i++) {
@@ -67,6 +112,11 @@ public class PlayerStatsManager {
         return (this.totalLevelExperience - subEXP);
     }
 
+    /**
+     * Client side only helps with the percentage bar at the top left of the screen
+     *
+     * @return
+     */
     public float calcLevelProgress() {
         return (((float) calcCurrentExperienceBasedOnLevel()/neededExperienceForLevelUp()) * 100);
     }
@@ -83,6 +133,10 @@ public class PlayerStatsManager {
         this.level = level;
     }
 
+    /**
+     * Running this will take the given total experience and will auto calculate what level the player should be at and then set them to it
+     *
+     */
     public void autoFixLevel() {
         int imaginaryLevel = 0;
         for (int i = 0; this.totalLevelExperience > this.calcTotalNeedExperienceForLevel(i+1); i++) {
@@ -97,6 +151,7 @@ public class PlayerStatsManager {
 
     public void addExperience(int experience) {
         this.totalLevelExperience += experience;
+        this.autoFixLevel();
     }
 
     public void setTotalLevelExperience(int totalLevelExperience) {

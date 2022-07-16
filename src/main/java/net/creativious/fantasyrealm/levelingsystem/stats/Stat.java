@@ -6,8 +6,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import org.jetbrains.annotations.NotNull;
 
-public class Stat {
+public abstract class Stat {
     public int level;
     public int experience;
 
@@ -46,23 +47,37 @@ public class Stat {
         this.autoFixLevel();
     }
 
-    public void writeNBT(NbtCompound tag) {
+    /**
+     * Writes NBT Data for the player
+     *
+     * I suggest not touching this one
+     *
+     * @param tag
+     */
+    public void writeNBT(@NotNull NbtCompound tag) {
         tag.putInt(this.name.toString() + "Level", this.level);
         tag.putInt(this.name.toString() + "Experience", this.experience);
     }
 
-    public void readNBT(NbtCompound tag) {
+    /**
+     * Reads NBT Data for the player
+     *
+     * I suggest not touching this one
+     *
+     * @param tag
+     */
+    public void readNBT(@NotNull NbtCompound tag) {
         this.level = tag.getInt(this.name.toString() + "Level");
         this.experience = tag.getInt(this.name.toString() + "Experience");
     }
 
-    public void readBuffer(PacketByteBuf buf) {
+    public void readBuffer(@NotNull PacketByteBuf buf) {
         this.setLevel(buf.readInt()); // Stat Level
         this.setExperience(buf.readInt()); // Stat Experience
 
     }
 
-    public void writeBuffer(PacketByteBuf buf) {
+    public void writeBuffer(@NotNull PacketByteBuf buf) {
         buf.writeInt(this.getLevel()); // Stat level
         buf.writeInt(this.getExperience()); // Stat Experience
 
@@ -86,7 +101,7 @@ public class Stat {
 
     @Environment(EnvType.CLIENT)
     public void createStatGUI(WPlainPanel root) {
-        
+
     }
 
 

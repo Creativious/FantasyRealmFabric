@@ -29,9 +29,18 @@ public class FurnaceOutputSlotMixin extends Slot {
         this.player = player;
     }
 
+    /**
+     * Upon taking items out of the smelted part of the furnace the player gains xp relative to the items retrieved.
+     *
+     * @param stack  the stack
+     * @param amount the amount
+     * @param ci     the ci
+     */
     @Inject(method="onCrafted(Lnet/minecraft/item/ItemStack;I)V", at=@At(value="TAIL"))
     protected void onCraftedMixin(ItemStack stack, int amount, CallbackInfo ci) {
         if (player instanceof ServerPlayerEntity) {
+            // @TODO: Different XP Levels based on type of item smelted
+            // @TODO: Connect Blacksmith and Cooking stats to these with different xp levels based on the item and sort based on what fits
             PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) player).getPlayerStatsManager((PlayerEntity) (Object) player);
             playerStatsManager.addExperience(stack.getCount());
             playerStatsManager.autoFixLevel();

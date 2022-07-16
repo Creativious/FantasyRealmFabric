@@ -9,6 +9,8 @@ import java.util.Set;
 
 public class FantasyRealmMixinPlugin implements IMixinConfigPlugin {
     /**
+     * This just exists but does nothing, not really anything important
+     *
      * @param mixinPackage The mixin root package from the config
      */
     @Override

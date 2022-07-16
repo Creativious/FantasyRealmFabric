@@ -10,6 +10,9 @@ import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * The type Fantasy realm client.
+ */
 public class FantasyRealmClient implements ClientModInitializer {
 
     @Override

@@ -14,8 +14,16 @@ import net.minecraft.text.Text;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * The type Level command.
+ */
 public class LevelCommand {
 
+    /**
+     * Gets command.
+     *
+     * @return the command
+     */
     public static LiteralArgumentBuilder<ServerCommandSource> getCommand() {
 
         return (CommandManager.literal("level").requires(serverCommandSource -> {

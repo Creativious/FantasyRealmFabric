@@ -12,10 +12,23 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 
+/**
+ * The type Player stats gui.
+ */
 public class PlayerStatsGUI extends LightweightGuiDescription {
 
+    /**
+     * The Scaled width.
+     */
     public int scaledWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+    /**
+     * The Scaled height.
+     */
     public int scaledHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+
+    /**
+     * Instantiates a new Player stats gui.
+     */
     public PlayerStatsGUI() {
 
         MinecraftClient client = MinecraftClient.getInstance();

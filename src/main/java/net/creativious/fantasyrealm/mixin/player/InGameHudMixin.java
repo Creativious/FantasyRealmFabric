@@ -23,6 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 
+/**
+ * The type In game hud mixin.
+ */
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
@@ -39,17 +42,40 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Shadow
     private int scaledHeight;
 
+    /**
+     * Gets camera player.
+     *
+     * @return the camera player
+     */
     @Shadow protected abstract PlayerEntity getCameraPlayer();
 
+    /**
+     * Gets text renderer.
+     *
+     * @return the text renderer
+     */
     @Shadow public abstract TextRenderer getTextRenderer();
 
     @Shadow @Final private static Identifier WIDGETS_TEXTURE;
 
 
+    /**
+     * Instantiates a new In game hud mixin.
+     *
+     * @param client the client
+     */
     public InGameHudMixin(MinecraftClient client) {
         this.client = client;
     }
 
+
+    /**
+     *
+     * Renders the top left level indicator
+     *
+     * @param matrices
+     * @param info
+     */
     @Inject(method = "renderStatusBars", at = @At(value="TAIL"))
     private void renderStatusBarsMixin(MatrixStack matrices, CallbackInfo info) {
         PlayerEntity playerEntity = this.getCameraPlayer();

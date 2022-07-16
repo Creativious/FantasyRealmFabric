@@ -10,10 +10,16 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
+/**
+ * The type Key binds.
+ */
 public class KeyBinds {
 
     private static KeyBinding playerStatsGUIKeybind;
 
+    /**
+     * Init.
+     */
     public static void init() {
         playerStatsGUIKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.fantasyrealm.playerstatsguiopen",
@@ -26,6 +32,9 @@ public class KeyBinds {
 
     }
 
+    /**
+     * Player stats gui event.
+     */
     public static void playerStatsGUIEvent() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (playerStatsGUIKeybind.wasPressed()) {
