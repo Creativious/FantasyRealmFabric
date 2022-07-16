@@ -1,4 +1,9 @@
 {
   "commands.level.changed": "Changed %d's level to %d.",
-  "commands.level.progress.changed": "Changed %d's level progress to %d percent"
+  "commands.level.totalXP.changed": "Changed %d's total experience to %d.",
+  "commands.level.neededXP": "%d's needed XP to level up is %d.",
+  "screen.fantasyrealm.levelingsystembutton.tooltip": "Test Tooltip",
+  "key.fantasyrealm.playerstatsguiopen": "PlayerStatsGUI",
+  "category.fantasyrealm.all": "FantasyRealm",
+  "fantasyrealm.test": "Test"
 }

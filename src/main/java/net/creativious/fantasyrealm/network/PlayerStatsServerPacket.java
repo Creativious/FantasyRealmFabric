@@ -18,7 +18,6 @@ public class PlayerStatsServerPacket {
     public static void writeS2CLevelPacket(PlayerStatsManager playerStatsManager, ServerPlayerEntity serverPlayerEntity) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(playerStatsManager.getLevel()); // Level
-        buf.writeFloat(playerStatsManager.getLevelProgress()); // Level Progress
         buf.writeInt(playerStatsManager.getTotalLevelExperience()); // Total Level Experience
 
         CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(LEVEL_PACKET, buf);

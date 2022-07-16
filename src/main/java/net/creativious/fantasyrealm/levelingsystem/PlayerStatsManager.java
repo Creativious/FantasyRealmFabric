@@ -5,20 +5,17 @@ import net.minecraft.nbt.NbtCompound;
 
 public class PlayerStatsManager {
     public int level;
-    public float levelProgress;
     public int skillPoints;
     public int totalLevelExperience;
 
 
     public void readNbt(NbtCompound tag) {
         this.level = tag.getInt("Level");
-        this.levelProgress = tag.getFloat("LevelProgress");
         this.totalLevelExperience = tag.getInt("TotalLevelExperience");
     }
 
     public void writeNbt(NbtCompound tag) {
         tag.putInt("Level", this.level);
-        tag.putFloat("LevelProgress", this.levelProgress);
         tag.putInt("TotalLevelExperience", this.totalLevelExperience);
     }
 
@@ -26,8 +23,45 @@ public class PlayerStatsManager {
         return this.level;
     }
 
+    public int neededExperienceForLevelUp() {
+        return calcExperienceForLevel(this.level + 1);
+    }
+
+    public int neededTotalExperienceForLevelUp() {
+        int subEXP = 0;
+        for (int i = 0; i < this.level; i++) {
+            subEXP += calcExperienceForLevel(i);
+        }
+        return subEXP + neededExperienceForLevelUp();
+    }
+
+    public int calcTotalNeedExperienceForLevel(int level) {
+        int subEXP = 0;
+        for (int i = 0; i < level; i++) {
+            subEXP += calcExperienceForLevel(i);
+        }
+        return subEXP;
+    }
+
+    public int calcExperienceForLevel(int level) {
+        int exp = (int) (((level) * 500)^4)/15^2;
+        return exp;
+    }
+
+    public int calcCurrentExperienceBasedOnLevel() {
+        int subEXP = 0;
+        for (int i = 0; i < this.level; i++) {
+            subEXP += calcExperienceForLevel(i);
+        }
+        return (this.totalLevelExperience - subEXP);
+    }
+
+    public float calcLevelProgress() {
+        return (((float) calcCurrentExperienceBasedOnLevel()/neededExperienceForLevelUp()) * 100);
+    }
+
     public float getLevelProgress() {
-        return this.levelProgress;
+        return calcLevelProgress();
     }
 
     public int getTotalLevelExperience() {
@@ -38,8 +72,20 @@ public class PlayerStatsManager {
         this.level = level;
     }
 
-    public void setLevelProgress(float levelProgress) {
-        this.levelProgress = levelProgress;
+    public void autoFixLevel() {
+        int imaginaryLevel = 0;
+        for (int i = 0; this.totalLevelExperience > this.calcTotalNeedExperienceForLevel(i+1); i++) {
+            imaginaryLevel = i + 1;
+        }
+        this.level = imaginaryLevel;
+    }
+
+    public void addLevels(int levels) {
+        this.level += levels;
+    }
+
+    public void addExperience(int experience) {
+        this.totalLevelExperience += experience;
     }
 
     public void setTotalLevelExperience(int totalLevelExperience) {

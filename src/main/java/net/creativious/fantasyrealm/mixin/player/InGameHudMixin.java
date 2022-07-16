@@ -56,7 +56,11 @@ public abstract class InGameHudMixin extends DrawableHelper {
         if (playerEntity != null && !playerEntity.isInvulnerable()) {
             this.client.getProfiler().push("fantasyrealmLevelBar");
             PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) playerEntity).getPlayerStatsManager(playerEntity);
-            String string = "" + playerStatsManager.getLevel();
+            int displayLevel = playerStatsManager.getLevel();
+            if (displayLevel > 9999) {
+                displayLevel = 9999;
+            }
+            String string = "" + displayLevel;
             float x_pos = (0 + 18%(float) this.scaledWidth) - ((float) this.getTextRenderer().getWidth(string) / 2);
             float y_pos = (0 + 13%(float) this.scaledHeight);
             int box_x_pos = (10 % (this.scaledWidth));

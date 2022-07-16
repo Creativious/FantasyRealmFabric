@@ -27,7 +27,6 @@ public class PlayerStatsClientPacket {
     public static void executeLevelPacket(PlayerEntity player, PacketByteBuf buf) {
         PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) player).getPlayerStatsManager(player);
         playerStatsManager.setLevel(buf.readInt()); // Level
-        playerStatsManager.setLevelProgress(buf.readFloat()); // Level Progress
         playerStatsManager.setTotalLevelExperience(buf.readInt()); // Total Level Experience
     }
 }
