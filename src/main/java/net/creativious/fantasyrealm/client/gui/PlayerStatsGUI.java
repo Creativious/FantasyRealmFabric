@@ -5,6 +5,8 @@ import io.github.cottonmc.cotton.gui.widget.*;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
 import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,6 +17,7 @@ import net.minecraft.util.Identifier;
 /**
  * The type Player stats gui.
  */
+@Environment(EnvType.CLIENT)
 public class PlayerStatsGUI extends LightweightGuiDescription {
 
     /**
