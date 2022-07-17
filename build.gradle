@@ -11,6 +11,26 @@ repositories {
         name = "CottonMC"
         url = "https://server.bbkr.space/artifactory/libs-release"
     }
+    maven {
+        name "jitpack"
+        url "https://jitpack.io"
+    }
+    maven {
+        name "cloth config"
+        url "https://maven.shedaniel.me/"
+    }
+    maven {
+        name "mod menu"
+        url "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name "player ability lib"
+        url "https://ladysnake.jfrog.io/artifactory/mods"
+    }
+    maven {
+        name "reach entity attributes"
+        url "https://maven.jamieswhiteshirt.com/libs-release/"
+    }
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -27,6 +47,8 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "io.github.cottonmc:LibGui:6.0.0+1.19"
+    modImplementation "com.github.apace100:origins-fabric:1.6.2"
+    modImplementation "com.github.virtuoel:pehkui:3.3.3"
 }
 
 processResources {
