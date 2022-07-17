@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#c:iron_ingots",
+    "#c:gold_ingots",
+    "#c:netherite_ingots",
+    "#c:copper_ingots",
+    "#c:diamonds",
+    "#c:lapis",
+    "#c:redstone_dusts",
+    "minecraft:stone",
+    "minecraft:smooth_stone"
+  ]
+}

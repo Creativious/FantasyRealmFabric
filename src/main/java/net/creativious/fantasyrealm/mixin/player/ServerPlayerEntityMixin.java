@@ -27,8 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IServerPlayerEntity {
 
     public int syncedPlayerStatsLevel = -1;
-    public float syncedPlayerStatsLevelProgress = -1;
-    public float syncedPlayerStatsTotalExperience = -1;
+    public int syncedPlayerStatsTotalExperience = -1;
+
+
 
     /**
      * The Player stats manager.
@@ -50,7 +51,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
     @Inject(method="onSpawn", at=@At(value="TAIL"))
     public void onSpawn(CallbackInfo ci) {
         this.playerStatsManager.autoFixLevel();
+        this.playerStatsManager.blacksmithingStat.autoFixLevel();
+        this.playerStatsManager.cookingStat.autoFixLevel();
         PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
+        this.syncedPlayerStatsLevel = -1;
+        this.syncedPlayerStatsTotalExperience = -1;
     }
 
     /**

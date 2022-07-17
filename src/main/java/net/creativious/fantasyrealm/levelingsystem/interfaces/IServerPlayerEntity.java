@@ -4,13 +4,5 @@ public interface IServerPlayerEntity {
 
     public int syncedPlayerStatsLevel = -1;
 
-    /**
-     * DEPRECATED WILL BE REMOVED SOON
-     *
-     * The constant syncedPlayerStatsLevelProgress.
-     */
-    @Deprecated
-    public float syncedPlayerStatsLevelProgress = -1;
-
-    public float syncedPlayerStatsTotalExperience = -1;
+    public int syncedPlayerStatsTotalExperience = -1;
 }

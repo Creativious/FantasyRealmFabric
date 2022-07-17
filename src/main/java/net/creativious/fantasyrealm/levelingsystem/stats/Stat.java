@@ -1,11 +1,15 @@
 package net.creativious.fantasyrealm.levelingsystem.stats;
 
 import io.github.cottonmc.cotton.gui.widget.WPlainPanel;
+import io.github.cottonmc.cotton.gui.widget.WText;
+import io.github.cottonmc.cotton.gui.widget.data.Color;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Stat {
@@ -13,6 +17,8 @@ public abstract class Stat {
     public int experience;
 
     public String name = "Stat";
+
+    public String display_name = "Stat";
 
     public int calcExperienceForLevel(int level) {
         return (int) (((level) * 500)^4)/15^2;
@@ -71,6 +77,15 @@ public abstract class Stat {
         this.experience = tag.getInt(this.name.toString() + "Experience");
     }
 
+    /**
+     * Returns the experience that the current player needs to level up from their current level to the next excluding already gained xp.
+     *
+     * @return
+     */
+    public int neededExperienceForLevelUp() {
+        return calcExperienceForLevel(this.level + 1);
+    }
+
     public void readBuffer(@NotNull PacketByteBuf buf) {
         this.setLevel(buf.readInt()); // Stat Level
         this.setExperience(buf.readInt()); // Stat Experience
@@ -99,9 +114,25 @@ public abstract class Stat {
         this.level = imaginaryLevel;
     }
 
-    @Environment(EnvType.CLIENT)
-    public void createStatGUI(WPlainPanel root) {
+    public int calcCurrentExperienceBasedOnLevel() {
+        int subEXP = 0;
+        for (int i = 0; i < this.level; i++) {
+            subEXP += calcExperienceForLevel(i);
+        }
+        return (this.experience - subEXP);
+    }
 
+    @Environment(EnvType.CLIENT)
+    public void createStatGUI(WPlainPanel root, int y_pos, MinecraftClient client) {
+        String labelString = display_name + ":";
+        String levelString = "Level: " + Integer.toString(level);
+        String experienceString = "Experience: " + Integer.toString(calcCurrentExperienceBasedOnLevel()) + "/" +  Integer.toString(neededExperienceForLevelUp());
+        WText labelWidget = new WText(Text.literal(labelString), Color.CYAN_DYE.toRgb());
+        root.add(labelWidget, 0, y_pos, client.textRenderer.getWidth(labelString), client.textRenderer.fontHeight);
+        WText levelWidget = new WText(Text.literal(levelString), Color.BLUE.toRgb());
+        root.add(levelWidget, client.textRenderer.getWidth(labelString) + 10%(root.getWidth()), labelWidget.getY(), client.textRenderer.getWidth(levelString), client.textRenderer.fontHeight);
+        WText experienceWidget = new WText(Text.literal(experienceString), 561152);
+        root.add(experienceWidget, client.textRenderer.getWidth(levelString) + 20%(root.getWidth()) + client.textRenderer.getWidth(labelString), levelWidget.getY(), client.textRenderer.getWidth(experienceString), client.textRenderer.fontHeight);
     }
 
 

@@ -2,6 +2,7 @@ package net.creativious.fantasyrealm.client.gui;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
+import io.github.cottonmc.cotton.gui.widget.data.Color;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
 import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
@@ -55,8 +56,13 @@ public class PlayerStatsGUI extends LightweightGuiDescription {
         WText experienceText = new WText(Text.literal(experienceTextString), 65280);
         root.add(experienceText, (root.getWidth() / 2) - (client.textRenderer.getWidth(experienceTextString) / 2), levelText.getY() + 13%(root.getHeight()), client.textRenderer.getWidth(experienceTextString), client.textRenderer.fontHeight);
 
-        String levelStatName = "Stats";
+        String statLabelTextstring = "Stats";
 
+        WText statLabeltext = new WText(Text.literal(statLabelTextstring));
+        root.add(statLabeltext, (root.getWidth() / 2) - (client.textRenderer.getWidth(statLabelTextstring) / 2), experienceText.getY()+ 20%(root.getHeight()), client.textRenderer.getWidth(experienceTextString), client.textRenderer.fontHeight);
+
+        playerStatsManager.blacksmithingStat.createStatGUI(root, statLabeltext.getY() + 20%(root.getHeight()), client);
+        playerStatsManager.cookingStat.createStatGUI(root, statLabeltext.getY() + 40%(root.getHeight()), client);
 
         root.setInsets(Insets.ROOT_PANEL);
 
