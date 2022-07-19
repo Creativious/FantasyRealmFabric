@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "fantasyrealm:bronze_coin",
+    "fantasyrealm:silver_coin",
+    "fantasyrealm:platinum_coin",
+    "fantasyrealm:gold_coin"
+  ]
+}

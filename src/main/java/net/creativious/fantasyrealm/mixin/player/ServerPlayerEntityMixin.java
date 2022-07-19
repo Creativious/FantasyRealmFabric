@@ -1,13 +1,12 @@
 package net.creativious.fantasyrealm.mixin.player;
 
 import com.mojang.authlib.GameProfile;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IServerPlayerEntity;
+import net.creativious.fantasyrealm.interfaces.IServerPlayerEntity;
 import net.creativious.fantasyrealm.network.PlayerStatsServerPacket;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -15,9 +14,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -26,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IServerPlayerEntity {
 
+    @Shadow @Nullable private Vec3d fallStartPos;
     public int syncedPlayerStatsLevel = -1;
     public int syncedPlayerStatsTotalExperience = -1;
 
@@ -34,7 +36,9 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
     /**
      * The Player stats manager.
      */
-    PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) this).getPlayerStatsManager((PlayerEntity) (Object) this);
+    FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) this).getFantasyRealmPlayerManager((PlayerEntity) (Object) this);
+    PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
+
 
     public ServerPlayerEntityMixin(World world, BlockPos pos, float yaw, GameProfile gameProfile, @Nullable PlayerPublicKey publicKey) {
         super(world, pos, yaw, gameProfile, publicKey);
@@ -53,7 +57,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
         this.playerStatsManager.autoFixLevel();
         this.playerStatsManager.blacksmithingStat.autoFixLevel();
         this.playerStatsManager.cookingStat.autoFixLevel();
-        PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
+        PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, (ServerPlayerEntity) (Object) this);
         this.syncedPlayerStatsLevel = -1;
         this.syncedPlayerStatsTotalExperience = -1;
     }
@@ -73,7 +77,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
             if(this.playerStatsManager.getTotalLevelExperience() > this.playerStatsManager.neededTotalExperienceForLevelUp()) {
                 this.playerStatsManager.autoFixLevel();
             }
-            PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
+            PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, (ServerPlayerEntity) (Object) this);
             this.syncedPlayerStatsLevel = this.playerStatsManager.getLevel();
         }
         if (this.playerStatsManager.getTotalLevelExperience() != this.syncedPlayerStatsTotalExperience) {
@@ -81,7 +85,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
                 this.playerStatsManager.autoFixLevel();
                 this.syncedPlayerStatsLevel = this.playerStatsManager.getLevel();
             }
-            PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
+            PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, (ServerPlayerEntity) (Object) this);
             this.syncedPlayerStatsTotalExperience = this.playerStatsManager.getTotalLevelExperience();
         }
     }
@@ -104,7 +108,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IS
             int xpGained = (int) Math.round(max_health);
             this.playerStatsManager.addExperience(xpGained);
             this.playerStatsManager.autoFixLevel();
-            PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) this);
+            PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, (ServerPlayerEntity) (Object) this);
         }
     }
 

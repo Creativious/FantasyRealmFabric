@@ -1,8 +1,9 @@
 package net.creativious.fantasyrealm.mixin.player;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -20,8 +21,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.awt.*;
 
 /**
  * The type In game hud mixin.
@@ -81,7 +80,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity != null && !playerEntity.isInvulnerable()) {
             this.client.getProfiler().push("fantasyrealmLevelBar");
-            PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) playerEntity).getPlayerStatsManager(playerEntity);
+            FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) playerEntity).getFantasyRealmPlayerManager(playerEntity);
+            PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
             int displayLevel = playerStatsManager.getLevel();
             if (displayLevel > 9999) {
                 displayLevel = 9999;

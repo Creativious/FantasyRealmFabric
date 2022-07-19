@@ -1,6 +1,7 @@
 package net.creativious.fantasyrealm.network;
 
 import io.netty.buffer.Unpooled;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
@@ -18,10 +19,11 @@ public class PlayerStatsServerPacket {
     /**
      * Write server to client packets for the levelingSystem.
      *
-     * @param playerStatsManager the player stats manager
+     * @param fantasyRealmPlayerManager the player manager
      * @param serverPlayerEntity the server player entity
      */
-    public static void writeS2CLevelPacket(PlayerStatsManager playerStatsManager, ServerPlayerEntity serverPlayerEntity) {
+    public static void writeS2CLevelPacket(FantasyRealmPlayerManager fantasyRealmPlayerManager, ServerPlayerEntity serverPlayerEntity) {
+        PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         /**
          * When working on networking, keep the order that you write to the buffers the same as you read them.

@@ -1,6 +1,8 @@
 package net.creativious.fantasyrealm.levelingsystem;
 
 
+import io.github.apace100.origins.Origins;
+import io.github.apace100.origins.origin.Origin;
 import net.creativious.fantasyrealm.levelingsystem.stats.BlacksmithingStat;
 import net.creativious.fantasyrealm.levelingsystem.stats.CookingStat;
 import net.creativious.fantasyrealm.levelingsystem.stats.Stat;

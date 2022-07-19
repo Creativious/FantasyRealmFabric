@@ -2,8 +2,9 @@ package net.creativious.fantasyrealm.commands;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
 import net.creativious.fantasyrealm.network.PlayerStatsServerPacket;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -43,11 +44,12 @@ public class LevelCommand {
 
         while (serverPlayerEntityIterator.hasNext()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) serverPlayerEntityIterator.next();
-            PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) serverPlayerEntity).getPlayerStatsManager(serverPlayerEntity);
+            FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) serverPlayerEntity).getFantasyRealmPlayerManager(serverPlayerEntity);
+            PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
             if (type.equals("set")) {
                 playerStatsManager.setLevel(level);
                 playerStatsManager.setTotalLevelExperience(playerStatsManager.calcTotalNeedExperienceForLevel(level));
-                PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, serverPlayerEntity);
+                PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, serverPlayerEntity);
 
                 source.sendFeedback(Text.translatable("commands.level.changed", serverPlayerEntity.getDisplayName(), Integer.toString(level)), true);
 
@@ -63,11 +65,12 @@ public class LevelCommand {
 
         while (serverPlayerEntityIterator.hasNext()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) serverPlayerEntityIterator.next();
-            PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) serverPlayerEntity).getPlayerStatsManager(serverPlayerEntity);
+            FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) serverPlayerEntity).getFantasyRealmPlayerManager(serverPlayerEntity);
+            PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
             if (type.equals("set")) {
                 playerStatsManager.setTotalLevelExperience(totalXP);
                 playerStatsManager.autoFixLevel();
-                PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, serverPlayerEntity);
+                PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, serverPlayerEntity);
                 source.sendFeedback(Text.translatable("commands.level.totalXP.changed", serverPlayerEntity.getDisplayName(), totalXP), true);
 
 
@@ -82,7 +85,8 @@ public class LevelCommand {
 
         while (serverPlayerEntityIterator.hasNext()) {
             ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) serverPlayerEntityIterator.next();
-            PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) serverPlayerEntity).getPlayerStatsManager(serverPlayerEntity);
+            FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) serverPlayerEntity).getFantasyRealmPlayerManager(serverPlayerEntity);
+            PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
             source.sendFeedback(Text.translatable("commands.level.neededXP", serverPlayerEntity.getDisplayName(), Integer.toString(playerStatsManager.neededTotalExperienceForLevelUp())), true);
         }
         return 0;

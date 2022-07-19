@@ -1,9 +1,10 @@
 package net.creativious.fantasyrealm.mixin.blocks;
 
 
-import net.creativious.fantasyrealm.FantasyRealmTags;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.registration.tags.FantasyRealmTags;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
 import net.creativious.fantasyrealm.network.PlayerStatsServerPacket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -45,7 +46,8 @@ public class FurnaceOutputSlotMixin extends Slot {
         if (player instanceof ServerPlayerEntity) {
             // @TODO: Different XP Levels based on type of item smelted, WAY DOWN IN THE FUTURE I DO NOT WANT TO DO IT
             List<TagKey<Item>> tagList = stack.streamTags().toList();
-            PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) player).getPlayerStatsManager((PlayerEntity) (Object) player);
+            FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) player).getFantasyRealmPlayerManager((PlayerEntity) (Object) player);
+            PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
 
 
             if (tagList.contains(FantasyRealmTags.BLACKSMITH_STAT_SMELTING_XP_GAIN)) {
@@ -63,7 +65,7 @@ public class FurnaceOutputSlotMixin extends Slot {
 
             playerStatsManager.addExperience(stack.getCount());
             playerStatsManager.autoFixLevel();
-            PlayerStatsServerPacket.writeS2CLevelPacket(playerStatsManager, (ServerPlayerEntity) (Object) player);
+            PlayerStatsServerPacket.writeS2CLevelPacket(fantasyRealmPlayerManager, (ServerPlayerEntity) (Object) player);
         }
     }
 }

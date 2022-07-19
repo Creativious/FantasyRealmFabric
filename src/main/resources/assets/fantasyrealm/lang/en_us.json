@@ -5,5 +5,10 @@
   "screen.fantasyrealm.levelingsystembutton.tooltip": "Test Tooltip",
   "key.fantasyrealm.playerstatsguiopen": "PlayerStatsGUI",
   "category.fantasyrealm.all": "FantasyRealm",
-  "fantasyrealm.test": "Test"
+  "fantasyrealm.test": "Test",
+  "item.fantasyrealm.bronze_coin": "Bronze Coin",
+  "item.fantasyrealm.silver_coin": "Silver Coin",
+  "item.fantasyrealm.gold_coin": "Gold Coin",
+  "item.fantasyrealm.platinum_coin": "Platinum Coin",
+  "item.fantasyrealm.coin_bag": "Coin Bag"
 }

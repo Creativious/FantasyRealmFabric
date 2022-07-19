@@ -1,8 +1,9 @@
 package net.creativious.fantasyrealm.network;
 
 import io.netty.buffer.Unpooled;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -34,7 +35,8 @@ public class PlayerStatsClientPacket {
      * @param buf    the buffer
      */
     public static void executeLevelPacket(PlayerEntity player, PacketByteBuf buf) {
-        PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) player).getPlayerStatsManager(player);
+        FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) player).getFantasyRealmPlayerManager(player);
+        PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
         /**
          * When working on networking, keep the order that you read the buffers the same as you write to them.
          * For stats just use playerStatsManager.<statName>.readbuffer(buf); // <statName>

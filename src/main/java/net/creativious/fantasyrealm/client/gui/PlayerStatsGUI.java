@@ -2,17 +2,15 @@ package net.creativious.fantasyrealm.client.gui;
 
 import io.github.cottonmc.cotton.gui.client.LightweightGuiDescription;
 import io.github.cottonmc.cotton.gui.widget.*;
-import io.github.cottonmc.cotton.gui.widget.data.Color;
 import io.github.cottonmc.cotton.gui.widget.data.Insets;
+import net.creativious.fantasyrealm.FantasyRealmPlayerManager;
+import net.creativious.fantasyrealm.interfaces.IFantasyRealmPlayerManager;
 import net.creativious.fantasyrealm.levelingsystem.PlayerStatsManager;
-import net.creativious.fantasyrealm.levelingsystem.interfaces.IPlayerStatsManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 
 /**
@@ -39,7 +37,8 @@ public class PlayerStatsGUI extends LightweightGuiDescription {
         PlayerEntity playerEntity = (PlayerEntity) client.getCameraEntity();
 
         assert playerEntity != null;
-        PlayerStatsManager playerStatsManager = ((IPlayerStatsManager) playerEntity).getPlayerStatsManager(playerEntity);
+        FantasyRealmPlayerManager fantasyRealmPlayerManager = ((IFantasyRealmPlayerManager) playerEntity).getFantasyRealmPlayerManager(playerEntity);
+        PlayerStatsManager playerStatsManager = fantasyRealmPlayerManager.getPlayerStatsManager();
 
         WPlainPanel root = new WPlainPanel();
         setRootPanel(root);

@@ -1,4 +1,4 @@
-package net.creativious.fantasyrealm.levelingsystem.interfaces;
+package net.creativious.fantasyrealm.interfaces;
 
 public interface IServerPlayerEntity {
 
